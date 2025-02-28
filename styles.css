@@ -1,0 +1,92 @@
+/* Global Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Default for all screen sizes */
+.container {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    text-align: left;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.initiativeOption.input-field {
+    width: 100%; /* Fixed width for consistent alignment */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+    html, body {
+        min-height: 100vh; /* Safer than height: 100vh */
+        display: flex;
+        flex-direction: column;
+        justify-content: start; /* Keeps content near the top */
+        align-items: center;
+        margin: 20px; /* Removes unwanted extra spacing */
+        padding: 0;
+    }
+    .container {
+        width: 95%;
+        max-width: 400px; /* Prevents excessive stretching */
+        margin-top: 32px; /* Only this moves the content down */
+        padding: 15px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    html, body {
+        min-height: 100vh; /* Safer than height: 100vh */
+        display: flex;
+        flex-direction: column;
+        justify-content: start; /* Keeps content near the top */
+        align-items: center;
+        margin: 20px; /* Removes unwanted extra spacing */
+    }
+    .container {
+        width: 80%;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width: 1025px) {
+    html, body {
+        min-height: 100vh; /* Safer than height: 100vh */
+        display: flex;
+        flex-direction: column;
+        justify-content: start; /* Keeps content near the top */
+        align-items: center;
+        margin: 20px; /* Removes unwanted extra spacing */
+    }   
+    .container {
+        width: 100%;
+    }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initiative Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Initiative Tracker</h2>
+        <div class="input-container">
+            <input type="text" id="name" placeholder="Character Name" class="input-field">
+            <input type="number" id="manual-initiative" placeholder="Manual Initiative" class="input-field">
+            <input type="number" id="modifier" placeholder="Initiative Modifier" class="input-field">
+            <button onclick="addInitiative()" class="submit-btn">Add</button>
+        </div>
+        <h3>Turn Order</h3>
+        <p id="initiative-list"></p> <!-- This will display the initiative order -->
+    </div>
+
+    <script src="script.js"></script> <!-- External JavaScript file -->
+</body>
+</html>
