@@ -33,7 +33,7 @@ function addInitiative() {
         return;
     }
 
-    initiativeArray.push({ name, initiative });
+    initiativeArray.push({ name, initiative, health });
 
     updateInitiativeList();
 
@@ -49,6 +49,7 @@ function addMultiInitiative() {
     const modifier = parseInt(document.getElementById("multi-modifier").value);
     const manualInitiative = parseInt(document.getElementById("multi-manual-initiative").value);
     const count = parseInt(document.getElementById("multi-count").value);
+    const health = parseInt(document.getElementById("multi-health").value); // Default to 10 if empty
 
     if (!name) {
         alert("Please enter a name.");
@@ -83,17 +84,12 @@ function addMultiInitiative() {
     for (let i = 0; i < count; i++) {
         let initiative = modifier ? rollInitiative() + modifier : manualInitiative;
         let instanceName = `${name} ${nextNumber + i}`;
-        initiativeArray.push({ name: instanceName, initiative });
+        initiativeArray.push({ name: instanceName, initiative, health }); // Now stores health properly
     }
 
     updateInitiativeList();
-
-    // Clear input fields
-    document.getElementById("multi-name").value = "";
-    document.getElementById("multi-manual-initiative").value = "";
-    document.getElementById("multi-modifier").value = "";
-    document.getElementById("multi-count").value = "";
 }
+
 
 // Function to display the initiative order
 function updateInitiativeList() {
@@ -105,11 +101,57 @@ function updateInitiativeList() {
 
     initiativeArray.forEach((char, index) => {
         const entry = document.createElement("div");
-        entry.innerHTML = `${char.initiative}: ${char.name} 
-            <button onclick="removeInitiative(${index})">❌</button>`;
+        entry.classList.add("initiative-entry");
+
+        // Initiative text
+        const initiativeText = document.createElement("span");
+        initiativeText.textContent = `${char.initiative}: ${char.name}`;
+
+        // Decrease Health Button
+        const decreaseHealth = document.createElement("button");
+        decreaseHealth.textContent = "-";
+        decreaseHealth.classList.add("health-btn");
+        decreaseHealth.onclick = () => {
+            initiativeArray[index].health -= 1;
+            healthInput.value = initiativeArray[index].health; // Keep the input in sync
+            updateInitiativeList();
+        };
+
+        // Health input field (Now Pre-filled with Assigned Health)
+        const healthInput = document.createElement("input");
+        healthInput.type = "number";
+        healthInput.classList.add("health-input");
+        healthInput.value = char.health; // Ensure the value is displayed correctly
+        healthInput.onchange = (e) => updateHealth(index, e.target.value); // Save manually entered value
+
+        // Increase Health Button
+        const increaseHealth = document.createElement("button");
+        increaseHealth.textContent = "+";
+        increaseHealth.classList.add("health-btn");
+        increaseHealth.onclick = () => {
+            initiativeArray[index].health += 1;
+            healthInput.value = initiativeArray[index].health; // Keep the input in sync
+            updateInitiativeList();
+        };
+
+        // Remove Button
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "❌";
+        removeButton.classList.add("remove-btn");
+        removeButton.onclick = () => removeInitiative(index);
+
+        // Append elements in correct order
+        entry.appendChild(initiativeText);
+        entry.appendChild(decreaseHealth);
+        entry.appendChild(healthInput);
+        entry.appendChild(increaseHealth);
+        entry.appendChild(removeButton);
+
         initiativeList.appendChild(entry);
     });
 }
+
+
 
 // Function to remove a single initiative entry
 function removeInitiative(index) {
@@ -123,4 +165,10 @@ function removeInitiative(index) {
 function clearInitiative() {
     initiativeArray = [];
     updateInitiativeList();
+}
+
+function updateHealth(index, newHealth) {
+    if (index >= 0 && index < initiativeArray.length) {
+        initiativeArray[index].health = parseInt(newHealth) || 0; // Ensure valid number
+    }
 }
