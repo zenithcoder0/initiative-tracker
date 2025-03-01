@@ -103,3 +103,28 @@ html, body {
         width: 100%;
     }
 }
+
+/* Style the turn order list */
+#initiative-list div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px; /* Ensures proper spacing between name and button */
+    width: 250px; /* Set a fixed width to align all items */
+    padding: 5px;
+    border-bottom: 1px solid #ddd; /* Optional: separates each entry */
+}
+
+/* Style the remove button */
+#initiative-list button {
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#initiative-list button:hover {
+    background-color: #cc0000;
+}

@@ -1,41 +1,41 @@
-let initiativeArray = []; // Array to store character initiatives
+let initiativeArray = [];
 
+// Function to roll a d20 for initiative
+function rollInitiative() {
+    return Math.floor(Math.random() * 20) + 1;
+}
+
+// Function to add a single initiative
 function addInitiative() {
     const name = document.getElementById("name").value.trim();
-    const modifier = parseInt(document.getElementById("modifier").value);
     const manualInitiative = parseInt(document.getElementById("manual-initiative").value);
+    const modifier = parseInt(document.getElementById("modifier").value);
     let initiative;
-    
-    if(modifier) {
+
+    if (!name) {
+        alert("Please enter a name.");
+        return;
+    }
+
+    if (modifier && manualInitiative) {
+        alert("You cannot have both a modifier and a manual initiative.");
+        return;
+    }
+
+    if (modifier) {
         initiative = rollInitiative() + modifier;
     } else {
         initiative = manualInitiative;
     }
-    if (name === "") {
-        alert("Please enter name.");
+
+    if (isNaN(initiative)) {
+        alert("Please enter a valid initiative.");
         return;
     }
 
-    if (!initiative) {
-        alert("Please enter intitiative or modifier.");
-        return;
-    }
-    
+    initiativeArray.push({ name, initiative });
 
-    if (modifier && manualInitiative) {
-        alert("You cannot have a modifier with a manual initiative. Try again.");
-        return;
-    }
-
-    // Add character to initiative list
-    // initiativeArray.push({ name, initiative, modifier, original, manualInitiative});
-    initiativeArray.push({ name, initiative});
-
-    // Sort array by initiative (descending)
-    initiativeArray.sort((a, b) => b.initiative - a.initiative);
-
-    // Display the updated initiative order
-    displayInitiative();
+    updateInitiativeList();
 
     // Clear input fields
     document.getElementById("name").value = "";
@@ -43,86 +43,84 @@ function addInitiative() {
     document.getElementById("modifier").value = "";
 }
 
+// Function to add multiple initiatives
 function addMultiInitiative() {
     const name = document.getElementById("multi-name").value.trim();
     const modifier = parseInt(document.getElementById("multi-modifier").value);
     const manualInitiative = parseInt(document.getElementById("multi-manual-initiative").value);
     const count = parseInt(document.getElementById("multi-count").value);
-    let initiative;
-    
-    if(modifier) {
-        initiative = rollInitiative() + modifier;
-    } else {
-        initiative = manualInitiative;
-    }
-    if (name === "") {
-        alert("Please enter name.");
+
+    if (!name) {
+        alert("Please enter a name.");
         return;
     }
 
-    if (!initiative) {
-        alert("Please enter intitiative or modifier.");
+    if (!modifier && isNaN(manualInitiative)) {
+        alert("Please enter an initiative or a modifier.");
         return;
     }
-    
 
     if (modifier && manualInitiative) {
-        alert("You cannot have a modifier with a manual initiative. Try again.");
+        alert("You cannot have both a modifier and a manual initiative.");
         return;
     }
 
-        // Find the highest existing numbered instance of this name
-        let existingGobbieNumbers = initiativeArray
+    if (!count || count < 1) {
+        alert("Please enter a valid count number (1 or more).");
+        return;
+    }
+
+    // Determine the next available number for the character
+    let existingNumbers = initiativeArray
         .filter(char => char.name.startsWith(name))
         .map(char => {
             const match = char.name.match(/\d+$/);
             return match ? parseInt(match[0]) : 0;
         });
 
-    let nextNumber = existingGobbieNumbers.length > 0 
-        ? Math.max(...existingGobbieNumbers) + 1 
-        : 1;
+    let nextNumber = existingNumbers.length > 0 ? Math.max(...existingNumbers) + 1 : 1;
 
-    for (let i = 0; i < count; i++) {  
-        let initiative;
-        if (modifier) {
-            initiative = rollInitiative() + modifier; // Roll initiative and apply modifier
-        } else {
-            initiative = manualInitiative; // Use manual initiative if provided
-        }
-
-        // Ensure every Gobbie is numbered
+    for (let i = 0; i < count; i++) {
+        let initiative = modifier ? rollInitiative() + modifier : manualInitiative;
         let instanceName = `${name} ${nextNumber + i}`;
         initiativeArray.push({ name: instanceName, initiative });
     }
 
-    // Sort array by initiative (descending)
-    initiativeArray.sort((a, b) => b.initiative - a.initiative);
-
-    // Display the updated initiative order
-    displayInitiative();
+    updateInitiativeList();
 
     // Clear input fields
-    document.getElementById("name").value = "";
-    document.getElementById("manual-initiative").value = "";
-    document.getElementById("modifier").value = "";
+    document.getElementById("multi-name").value = "";
+    document.getElementById("multi-manual-initiative").value = "";
+    document.getElementById("multi-modifier").value = "";
+    document.getElementById("multi-count").value = "";
 }
 
-function displayInitiative() {
-    const list = document.getElementById("initiative-list");
-    list.innerHTML = ""; // Clear previous entries
-    initiativeArray.forEach(entry => {
-        const divItem = document.createElement("div"); // Create a div instead of a list item
-        divItem.textContent = `${entry.manualInitiative || entry.initiative}: ${entry.name}`;
-        list.appendChild(divItem);
+// Function to display the initiative order
+function updateInitiativeList() {
+    const initiativeList = document.getElementById("initiative-list");
+    initiativeList.innerHTML = ""; // Clear the list
+
+    // Sort initiative order in descending order
+    initiativeArray.sort((a, b) => b.initiative - a.initiative);
+
+    initiativeArray.forEach((char, index) => {
+        const entry = document.createElement("div");
+        entry.innerHTML = `${char.initiative}: ${char.name} 
+            <button onclick="removeInitiative(${index})">❌</button>`;
+        initiativeList.appendChild(entry);
     });
 }
 
-function rollInitiative() {
-    return Math.floor(Math.random() * 20) + 1;
+// Function to remove a single initiative entry
+function removeInitiative(index) {
+    if (index >= 0 && index < initiativeArray.length) {
+        initiativeArray.splice(index, 1);
+        updateInitiativeList(); // Refresh the display
+    }
 }
 
+// Function to clear all initiatives
 function clearInitiative() {
-    initiativeArray = [];  // Completely clear the initiative list
-    displayInitiative();   // Update the UI to show an empty list
+    initiativeArray = [];
+    updateInitiativeList();
 }
