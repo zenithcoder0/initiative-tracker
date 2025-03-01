@@ -28,6 +28,19 @@ html, body {
     flex-direction: column;
 }
 
+.input-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 
 .initiativeOption.input-field {
     width: 100%; /* Fixed width for consistent alignment */

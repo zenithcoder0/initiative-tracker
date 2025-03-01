@@ -10,13 +10,28 @@
 
     <div class="container">
         <h2>Initiative Tracker</h2>
-        <div class="input-container">
-            <input type="text" id="name" placeholder="Character Name" class="input-field">
-            <input type="number" id="manual-initiative" placeholder="Manual Initiative" class="input-field">
-            <input type="number" id="modifier" placeholder="Initiative Modifier" class="input-field">
-            <button onclick="addInitiative()" class="submit-btn">Add</button>
-        </div>
+        <p>Welcome! Enter the name of the </p>
+        <section class="input-options">
+            <div class="input-container">
+                <p>Enter Player Initiative</p>
+                <input type="text" id="name" placeholder="Name" class="input-field">
+                <input type="number" min="0" id="manual-initiative" placeholder="Manual Initiative" class="input-field">
+                <input type="number" id="modifier" placeholder="Initiative Modifier" class="input-field">
+                <button onclick="addInitiative()" class="submit-btn">Add</button>
+            </div>
+            
+            
+            <div class="input-container">
+                <p>Enter Multiple Initiative</p>
+                <input type="text" id="multi-name" placeholder="Name" class="input-field">
+                <input type="number" min="0" id="multi-manual-initiative" placeholder="Manual Initiative" class="input-field">
+                <input type="number" id="multi-modifier" placeholder="Initiative Modifier" class="input-field">
+                <input type="number" min="1" id="multi-count" placeholder="Count" class="input-field">
+                <button onclick="addMultiInitiative()" class="submit-btn">Add</button>
+            </div>
+        </section>
         <h3>Turn Order</h3>
+        <button onclick="clearInitiative()" class="submit-btn">Clear</button>
         <p id="initiative-list"></p> <!-- This will display the initiative order -->
     </div>
 
