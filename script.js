@@ -99,6 +99,8 @@ function updateInitiativeList() {
     // Sort initiative order in descending order
     initiativeArray.sort((a, b) => b.initiative - a.initiative);
 
+    localStorage.setItem("initiativeData", JSON.stringify(initiativeArray));
+
     initiativeArray.forEach((char, index) => {
         const entry = document.createElement("div");
         entry.classList.add("initiative-entry");
