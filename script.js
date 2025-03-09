@@ -5,44 +5,6 @@ function rollInitiative() {
     return Math.floor(Math.random() * 20) + 1;
 }
 
-// Function to add a single initiative
-function addInitiative() {
-    const name = document.getElementById("name").value.trim();
-    const manualInitiative = parseInt(document.getElementById("manual-initiative").value);
-    const modifier = parseInt(document.getElementById("modifier").value);
-    let initiative;
-
-    if (!name) {
-        alert("Please enter a name.");
-        return;
-    }
-
-    if (modifier && manualInitiative) {
-        alert("You cannot have both a modifier and a manual initiative.");
-        return;
-    }
-
-    if (modifier) {
-        initiative = rollInitiative() + modifier;
-    } else {
-        initiative = manualInitiative;
-    }
-
-    if (isNaN(initiative)) {
-        alert("Please enter a valid initiative.");
-        return;
-    }
-
-    initiativeArray.push({ name, initiative, health });
-
-    updateInitiativeList();
-
-    // Clear input fields
-    document.getElementById("name").value = "";
-    document.getElementById("manual-initiative").value = "";
-    document.getElementById("modifier").value = "";
-}
-
 // Function to add multiple initiatives
 function addMultiInitiative() {
     const name = document.getElementById("multi-name").value.trim();
